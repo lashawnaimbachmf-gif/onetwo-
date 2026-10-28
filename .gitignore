@@ -6,7 +6,6 @@ uniCloud-aliyun/cloudfunctions/*/node_modules/
 # HBuilderX / uni-app 编译输出（可通过「发行」重新生成，不入库）
 unpackage/
 dist/
-.hbuilderx/
 
 # ===== 本地密钥配置（严禁提交）=====
 # 模板文件 *.example.js 需要提交；真实密钥文件被忽略
@@ -19,6 +18,8 @@ project.private.config.json
 # ===== 编辑器 / IDE =====
 .idea/
 .vscode/
+.hbuilderx/
+.workbuddy/
 *.suo
 *.ntvs*
 *.njsproj
