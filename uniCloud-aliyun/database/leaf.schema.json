@@ -1,0 +1,39 @@
+{
+  "bsonType": "object",
+  "required": [],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "content": {
+      "bsonType": "string",
+      "description": "吐槽内容"
+    },
+    "mood": {
+      "bsonType": "string",
+      "description": "情绪标签"
+    },
+    "is_anonymous": {
+      "bsonType": "bool",
+      "description": "是否匿名"
+    },
+    "hugs": {
+      "bsonType": "int",
+      "description": "抱抱数量"
+    },
+    "replies": {
+      "bsonType": "array",
+      "description": "回复列表"
+    },
+    "create_time": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+}

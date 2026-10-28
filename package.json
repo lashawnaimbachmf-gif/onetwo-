@@ -1,0 +1,43 @@
+{
+    "id": "shayu-diancan",
+    "name": "dian-can-uniapp",
+    "displayName": "点餐程序",
+    "version": "1.0.0",
+    "description": "点餐小程序 - uni-app版，支持微信小程序、H5等多端。",
+    "keywords": [
+        "点餐"
+    ],
+    "dcloudext": {
+        "type": "pagetemplate-vue",
+        "sale": {
+            "regular": {
+                "price": "0.00"
+            },
+            "sourcecode": {
+                "price": "0.00"
+            }
+        }
+    },
+    "uni_modules": {
+        "dependencies": [],
+        "encrypt": []
+    },
+    "author": "",
+    "private": true,
+    "scripts": {
+        "dev:h5": "uni -p h5",
+        "dev:mp-weixin": "uni -p mp-weixin",
+        "build:h5": "uni build -p h5",
+        "build:mp-weixin": "uni build -p mp-weixin"
+    },
+    "dependencies": {
+        "@dcloudio/uni-helper-json": "^1.0.0",
+        "@dcloudio/uni-ui": "^1.5.8"
+    },
+    "devDependencies": {
+        "@dcloudio/uni-app": "2.0.2-4060620250520001",
+        "@dcloudio/uni-cli-shared": "2.0.2-4060620250520001",
+        "@dcloudio/uni-h5": "2.0.2-4060620250520001",
+        "@vue/cli-service": "^4.5.0"
+    }
+}

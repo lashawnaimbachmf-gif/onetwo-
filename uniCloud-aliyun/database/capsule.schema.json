@@ -1,0 +1,59 @@
+{
+  "bsonType": "object",
+  "required": ["title", "type", "creatorOpenid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "title": {
+      "bsonType": "string",
+      "description": "标题"
+    },
+    "type": {
+      "bsonType": "string",
+      "description": "类型：text/voice/image"
+    },
+    "content": {
+      "bsonType": "string",
+      "description": "内容"
+    },
+    "voiceUrl": {
+      "bsonType": "string",
+      "description": "语音URL"
+    },
+    "imageUrl": {
+      "bsonType": "string",
+      "description": "图片URL"
+    },
+    "openTime": {
+      "bsonType": "string",
+      "description": "开启时间"
+    },
+    "isOpened": {
+      "bsonType": "bool",
+      "description": "是否已开启"
+    },
+    "color": {
+      "bsonType": "string",
+      "description": "颜色"
+    },
+    "creatorOpenid": {
+      "bsonType": "string",
+      "description": "创建者openid"
+    },
+    "creatorName": {
+      "bsonType": "string",
+      "description": "创建者昵称"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+}

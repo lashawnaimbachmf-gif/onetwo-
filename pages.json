@@ -1,0 +1,35 @@
+{
+  "pages": [
+    { "path": "pages/login", "style": { "navigationStyle": "custom"} },
+    { "path": "pages/login/complete-info", "style": { "navigationStyle": "custom"} },
+    { "path": "pages/invite/index", "style": { "navigationStyle": "custom"} },
+    { "path": "pages/home/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/home/settings", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/home/edit-anniversary", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/home/anniversary-detail", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/capsule/index", "style": { "navigationBarBackgroundColor": "#ffffff", "navigationBarTextStyle": "black" } },
+    { "path": "pages/capsule/create", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/capsule/detail", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/tree/index", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
+    { "path": "pages/tree/create", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
+    { "path": "pages/tree/detail", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
+    { "path": "pages/dining/index", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
+    { "path": "pages/dining/add-dish", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
+    { "path": "pages/dining/edit-dish", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
+    { "path": "pages/us/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
+    { "path": "pages/us/edit-info/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } }
+  ],
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#ff6b9d",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "小窝", "iconPath": "static/tabbar/home.png", "selectedIconPath": "static/tabbar/home-active.png" },
+      { "pagePath": "pages/capsule/index", "text": "胶囊", "iconPath": "static/tabbar/capsule.png", "selectedIconPath": "static/tabbar/capsule-active.png" },
+      { "pagePath": "pages/tree/index", "text": "树洞", "iconPath": "static/tabbar/tree.png", "selectedIconPath": "static/tabbar/tree-active.png" },
+      { "pagePath": "pages/dining/index", "text": "点餐", "iconPath": "static/tabbar/dining.png", "selectedIconPath": "static/tabbar/dining-active.png" },
+      { "pagePath": "pages/us/index", "text": "我们", "iconPath": "static/tabbar/us.png", "selectedIconPath": "static/tabbar/us-active.png" }
+    ]
+  }
+}

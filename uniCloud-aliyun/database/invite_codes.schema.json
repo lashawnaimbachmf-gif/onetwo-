@@ -1,0 +1,47 @@
+{
+  "bsonType": "object",
+  "required": ["code", "creatorOpenid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "code": {
+      "bsonType": "string",
+      "description": "邀请码"
+    },
+    "creatorOpenid": {
+      "bsonType": "string",
+      "description": "创建者openid"
+    },
+    "creatorInfo": {
+      "bsonType": "object",
+      "description": "创建者信息"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    },
+    "isUsed": {
+      "bsonType": "bool",
+      "description": "是否已使用"
+    },
+    "partnerOpenid": {
+      "bsonType": "string",
+      "description": "绑定者openid"
+    },
+    "partnerInfo": {
+      "bsonType": "object",
+      "description": "绑定者信息"
+    },
+    "bindTime": {
+      "bsonType": "timestamp",
+      "description": "绑定时间"
+    }
+  }
+}

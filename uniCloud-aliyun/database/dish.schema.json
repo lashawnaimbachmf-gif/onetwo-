@@ -1,0 +1,39 @@
+{
+  "bsonType": "object",
+  "required": ["name", "price", "creatorOpenid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "菜品名称"
+    },
+    "price": {
+      "bsonType": "int",
+      "description": "价格"
+    },
+    "img": {
+      "bsonType": "string",
+      "description": "图片URL"
+    },
+    "creatorOpenid": {
+      "bsonType": "string",
+      "description": "创建者openid"
+    },
+    "creatorName": {
+      "bsonType": "string",
+      "description": "创建者昵称"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+}
