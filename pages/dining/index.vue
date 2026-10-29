@@ -158,6 +158,7 @@
 </template>
 
 <script>
+import uniCloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import TimeFormat from '@/utils/timeFormat.js'

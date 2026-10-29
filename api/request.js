@@ -1,3 +1,5 @@
+import uniCloud from '@/utils/cloud.js'
+
 export async function request(options = {}) {
     const { url, method, data } = options
     

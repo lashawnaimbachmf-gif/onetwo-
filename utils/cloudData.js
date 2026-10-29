@@ -3,6 +3,8 @@
  * ������ش洢��ʹ�� uniCloud ���ݿ�
  */
 
+import uniCloud from '@/utils/cloud.js'
+
 const CloudData = {
     // �����ƺ���
     async callDataService(action, collection, params = {}) {

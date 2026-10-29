@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import uniCloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import UploadUtil from '@/utils/upload.js'
 

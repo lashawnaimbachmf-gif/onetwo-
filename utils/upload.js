@@ -3,6 +3,8 @@
  * 用于上传图片到uniCloud云存储
  */
 
+import uniCloud from '@/utils/cloud.js'
+
 export default {
     /**
      * 上传图片到云存储

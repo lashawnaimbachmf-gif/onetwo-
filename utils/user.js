@@ -1,7 +1,9 @@
 /**
- * ÓÃ»§¹ÜÀí¹¤¾ßÀà
- * ¹ÜÀíÓÃ»§ĞÅÏ¢¡¢Åä¶Ô¹ØÏµ¡¢Êı¾İ¹²Ïí
+ * ç”¨æˆ·ç®¡ç†å·¥å…·ç±»
+ * ç®¡ç†ç”¨æˆ·ä¿¡æ¯ã€é…å¯¹å…³ç³»ã€æ•°æ®å…±äº«
  */
+
+import uniCloud from '@/utils/cloud.js'
 
 const USER_KEY = 'user_info'
 const PARTNER_KEY = 'partner_info'
@@ -10,63 +12,63 @@ const TOKEN_KEY = 'token'
 const OPENID_KEY = 'openid'
 
 export default {
-    // »ñÈ¡µ±Ç°ÓÃ»§ĞÅÏ¢
+    // è·å–å½“å‰ç”¨æˆ·ä¿¡æ¯
     getUserInfo() {
         return uni.getStorageSync(USER_KEY) || {
-            nickName: 'ÎÒ',
+            nickName: 'æˆ‘',
             avatarUrl: '/static/tabbar/user.png',
             openid: ''
         }
     },
 
-    // ÉèÖÃÓÃ»§ĞÅÏ¢
+    // è®¾ç½®ç”¨æˆ·ä¿¡æ¯
     setUserInfo(userInfo) {
         uni.setStorageSync(USER_KEY, userInfo)
     },
 
-    // »ñÈ¡°éÂÂĞÅÏ¢
+    // è·å–ä¼´ä¾£ä¿¡æ¯
     getPartnerInfo() {
         return uni.getStorageSync(PARTNER_KEY) || null
     },
 
-    // ÉèÖÃ°éÂÂĞÅÏ¢
+    // è®¾ç½®ä¼´ä¾£ä¿¡æ¯
     setPartnerInfo(partnerInfo) {
         uni.setStorageSync(PARTNER_KEY, partnerInfo)
         uni.setStorageSync(IS_BIND_KEY, true)
     },
 
-    // ÊÇ·ñÒÑÅä¶Ô
+    // æ˜¯å¦å·²é…å¯¹
     isBind() {
         return uni.getStorageSync(IS_BIND_KEY) || false
     },
 
-    // ½â³ıÅä¶Ô
+    // è§£é™¤é…å¯¹
     unbind() {
         uni.removeStorageSync(PARTNER_KEY)
         uni.setStorageSync(IS_BIND_KEY, false)
     },
 
-    // »ñÈ¡µ±Ç°ÓÃ»§openid
+    // è·å–å½“å‰ç”¨æˆ·openid
     getOpenid() {
         return uni.getStorageSync(OPENID_KEY) || ''
     },
 
-    // ÉèÖÃopenid
+    // è®¾ç½®openid
     setOpenid(openid) {
         uni.setStorageSync(OPENID_KEY, openid)
     },
 
-    // »ñÈ¡token
+    // è·å–token
     getToken() {
         return uni.getStorageSync(TOKEN_KEY) || ''
     },
 
-    // ÉèÖÃtoken
+    // è®¾ç½®token
     setToken(token) {
         uni.setStorageSync(TOKEN_KEY, token)
     },
 
-    // »ñÈ¡Ë«·½openidÁĞ±í£¨ÓÃÓÚ²éÑ¯Êı¾İ£©
+    // è·å–åŒæ–¹openidåˆ—è¡¨ï¼ˆç”¨äºæŸ¥è¯¢æ•°æ®ï¼‰
     getCoupleOpenids() {
         const myOpenid = this.getOpenid()
         const partner = this.getPartnerInfo()
@@ -77,12 +79,12 @@ export default {
         return openids
     },
 
-    // ¼ì²éÊÇ·ñÊÇ×Ô¼ºµÄÊı¾İ
+    // æ£€æŸ¥æ˜¯å¦æ˜¯è‡ªå·±çš„æ•°æ®
     isMyData(dataOpenid) {
         return dataOpenid === this.getOpenid()
     },
 
-    // »ñÈ¡ÏÔÊ¾Ãû³Æ£¨×Ô¼º/¶Ô·½£©
+    // è·å–æ˜¾ç¤ºåç§°ï¼ˆè‡ªå·±/å¯¹æ–¹ï¼‰
     getDisplayName(dataOpenid) {
         if (this.isMyData(dataOpenid)) {
             return this.getUserInfo().nickName
@@ -92,7 +94,7 @@ export default {
         }
     },
 
-    // »ñÈ¡ÏÔÊ¾Í·Ïñ
+    // è·å–æ˜¾ç¤ºå¤´åƒ
     getDisplayAvatar(dataOpenid) {
         if (this.isMyData(dataOpenid)) {
             return this.getUserInfo().avatarUrl
@@ -102,15 +104,15 @@ export default {
         }
     },
 
-    // Éú³ÉÑûÇëÂë£¨µ÷ÓÃÔÆº¯Êı£©
+    // ç”Ÿæˆé‚€è¯·ç ï¼ˆè°ƒç”¨äº‘å‡½æ•°ï¼‰
     async generateInviteCode() {
         try {
             const userInfo = this.getUserInfo()
-            console.log('Éú³ÉÑûÇëÂë£¬ÓÃ»§ĞÅÏ¢:', userInfo)
+            console.log('ç”Ÿæˆé‚€è¯·ç ï¼Œç”¨æˆ·ä¿¡æ¯:', userInfo)
             
-            // ¼ì²éÊÇ·ñÓĞopenid
+            // æ£€æŸ¥æ˜¯å¦æœ‰openid
             if (!userInfo.openid) {
-                console.warn('ÓÃ»§Ã»ÓĞopenid£¬Ê¹ÓÃ±¾µØÉú³É')
+                console.warn('ç”¨æˆ·æ²¡æœ‰openidï¼Œä½¿ç”¨æœ¬åœ°ç”Ÿæˆ')
                 const code = Math.random().toString(36).substring(2, 8).toUpperCase()
                 uni.setStorageSync('my_invite_code', code)
                 return code
@@ -124,35 +126,35 @@ export default {
                 }
             })
             
-            console.log('ÔÆº¯Êı·µ»Ø:', res)
+            console.log('äº‘å‡½æ•°è¿”å›:', res)
             
             if (res.result && res.result.code === 0) {
                 const code = res.result.data.code
                 uni.setStorageSync('my_invite_code', code)
                 return code
             } else {
-                const errorMsg = res.result ? res.result.message : 'ÔÆº¯Êı·µ»ØÒì³£'
-                console.error('Éú³ÉÑûÇëÂëÊ§°Ü:', errorMsg)
+                const errorMsg = res.result ? res.result.message : 'äº‘å‡½æ•°è¿”å›å¼‚å¸¸'
+                console.error('ç”Ÿæˆé‚€è¯·ç å¤±è´¥:', errorMsg)
                 throw new Error(errorMsg)
             }
         } catch (err) {
-            console.error('Éú³ÉÑûÇëÂëÊ§°Ü:', err)
-            // ½µ¼¶µ½±¾µØÉú³É
+            console.error('ç”Ÿæˆé‚€è¯·ç å¤±è´¥:', err)
+            // é™çº§åˆ°æœ¬åœ°ç”Ÿæˆ
             const code = Math.random().toString(36).substring(2, 8).toUpperCase()
             uni.setStorageSync('my_invite_code', code)
             return code
         }
     },
 
-    // Í¨¹ıÑûÇëÂë°ó¶¨°éÂÂ£¨µ÷ÓÃÔÆº¯Êı£©
+    // é€šè¿‡é‚€è¯·ç ç»‘å®šä¼´ä¾£ï¼ˆè°ƒç”¨äº‘å‡½æ•°ï¼‰
     async bindByInviteCode(code) {
         try {
             const userInfo = this.getUserInfo()
-            console.log('°ó¶¨ÑûÇëÂë:', code, 'ÓÃ»§ĞÅÏ¢:', userInfo)
+            console.log('ç»‘å®šé‚€è¯·ç :', code, 'ç”¨æˆ·ä¿¡æ¯:', userInfo)
             
-            // ¼ì²éÊÇ·ñÓĞopenid
+            // æ£€æŸ¥æ˜¯å¦æœ‰openid
             if (!userInfo.openid) {
-                return { success: false, message: 'Äú»¹Î´µÇÂ¼£¬ÇëÏÈµÇÂ¼' }
+                return { success: false, message: 'æ‚¨è¿˜æœªç™»å½•ï¼Œè¯·å…ˆç™»å½•' }
             }
             
             const res = await uniCloud.callFunction({
@@ -164,27 +166,27 @@ export default {
                 }
             })
             
-            console.log('ÔÆº¯Êı·µ»Ø:', res)
+            console.log('äº‘å‡½æ•°è¿”å›:', res)
             
             if (res.result && res.result.code === 0) {
-                // ÉèÖÃ°éÂÂĞÅÏ¢
+                // è®¾ç½®ä¼´ä¾£ä¿¡æ¯
                 this.setPartnerInfo(res.result.data.partnerInfo)
-                return { success: true, message: '°ó¶¨³É¹¦' }
+                return { success: true, message: 'ç»‘å®šæˆåŠŸ' }
             } else {
-                const errorMsg = res.result ? res.result.message : 'ÔÆº¯Êı·µ»ØÒì³£'
+                const errorMsg = res.result ? res.result.message : 'äº‘å‡½æ•°è¿”å›å¼‚å¸¸'
                 return { success: false, message: errorMsg }
             }
         } catch (err) {
-            console.error('°ó¶¨Ê§°Ü:', err)
-            let msg = '°ó¶¨Ê§°Ü: ' + (err.message || 'Çë¼ì²éÍøÂç')
+            console.error('ç»‘å®šå¤±è´¥:', err)
+            let msg = 'ç»‘å®šå¤±è´¥: ' + (err.message || 'è¯·æ£€æŸ¥ç½‘ç»œ')
             if (err.message && err.message.includes('not found')) {
-                msg = 'ÔÆº¯ÊıÎ´²¿Êğ£¬ÇëÔÚHBuilderXÖĞÉÏ´«²¿ÊğÔÆº¯Êı'
+                msg = 'äº‘å‡½æ•°æœªéƒ¨ç½²ï¼Œè¯·åœ¨HBuilderXä¸­ä¸Šä¼ éƒ¨ç½²äº‘å‡½æ•°'
             }
             return { success: false, message: msg }
         }
     },
 
-    // Çå³ıËùÓĞÓÃ»§Êı¾İ£¨ÍË³öµÇÂ¼£©
+    // æ¸…é™¤æ‰€æœ‰ç”¨æˆ·æ•°æ®ï¼ˆé€€å‡ºç™»å½•ï¼‰
     clearAll() {
         uni.removeStorageSync(USER_KEY)
         uni.removeStorageSync(PARTNER_KEY)

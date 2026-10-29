@@ -69,7 +69,7 @@
 | 前端框架 | uni-app 2.0.2（Vue 2） | `manifest.json` 中 `vueVersion: "2"` |
 | UI 组件 | uni-ui `^1.5.8`、uni-popup、uni-transition、uni-scss | uni_modules 内置 |
 | 状态管理 | Vuex | `store/index.js`，用户与购物车持久化到 Storage |
-| 后端 | uniCloud 阿里云版 | 云函数 + 云数据库 + 云存储 |
+| 后端 | uniCloud 阿里云版（默认）/ 自建 Node 服务（可选） | 云函数 + 云数据库 + 云存储；`server/` 提供等效实现，见 [自建部署](docs/SELF_HOSTING.md) |
 | 天气服务 | 和风天气（QWeather） | `geoapi.qweather.com` 城市查询 + `devapi.qweather.com` 实况 |
 | 构建 | HBuilderX 或 @vue/cli-service 4.x | `vue.config.js` 关闭生产 sourcemap |
 
@@ -111,6 +111,8 @@ pnpm install
 4. 右键 `uniCloud-aliyun/database` → **上传所有 DB Schema**
 
 首次使用还需创建 `pair` 集合，可运行云函数 `initDatabase`，或对任意集合发起一次 `dataService` 请求（内部会自动 `createCollection`）。
+
+> **不想用 uniCloud？** 仓库自带 `server/`，是把 13 个云函数移植成普通 Node 服务的版本（Express + MongoDB，未配数据库时可用本地 JSON 文件跑通），前端通过 `utils/cloud.js` 适配层调用，页面代码基本不用改。完整步骤见 [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md)。
 
 ### 5. 运行
 
@@ -207,7 +209,8 @@ onetwo/
 │   └── product.js
 ├── config/
 │   ├── keys.example.js           # 天气 Key 模板（提交）
-│   └── keys.js                   # 真实 Key（忽略，不入库）
+│   ├── keys.js                   # 真实 Key（忽略，不入库）
+│   └── api.js                    # 后端地址（H5 同域 / 小程序 HTTPS 域名）
 ├── pages/
 │   ├── login.vue                 # 登录页（自定义导航）
 │   ├── login/complete-info.vue   # 完善资料
@@ -220,10 +223,12 @@ onetwo/
 ├── store/index.js                # Vuex：user / cart
 ├── utils/
 │   ├── user.js                   # UserManager：openid、token、伴侣信息、双人 openid
+│   ├── cloud.js                  # uniCloud 客户端 API 的 HTTP 适配层（callFunction/uploadFile）
 │   ├── cloudData.js              # dataService 云函数封装（按业务域组织）
-│   ├── upload.js                 # 图片上传至 uniCloud 云存储
+│   ├── upload.js                 # 图片上传（经适配层存到自建服务器）
 │   ├── timeFormat.js             # 时间格式化
 │   └── auth.js                   # 登录守卫 checkLogin()
+├── server/                       # 自建后端（可选）：云函数的 Node 移植版 + 文件存储
 ├── static/                       # 图标、tabbar、插画资源
 ├── uniCloud-aliyun/
 │   ├── cloudfunctions/           # 13 个云函数（详见 docs/CLOUD_FUNCTIONS.md）
@@ -276,6 +281,7 @@ onetwo/
 | [docs/DATABASE.md](docs/DATABASE.md) | 集合结构、字段语义、权限策略、索引建议 |
 | [docs/CLOUD_FUNCTIONS.md](docs/CLOUD_FUNCTIONS.md) | 云函数接口契约与调用示例 |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | 环境搭建、云函数部署、小程序上线清单、H5 部署 |
+| [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md) | **不用 uniCloud**：后端搬到自己的 ECS（Nginx + Node + MongoDB + HTTPS + 微信域名） |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | 常见报错排查与仓库已知问题 |
 
 ## 已知限制

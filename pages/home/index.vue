@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import uniCloud from '@/utils/cloud.js'
 import { getWeather, getWeatherTips } from '@/api/weather.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'

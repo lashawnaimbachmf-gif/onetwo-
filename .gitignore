@@ -12,6 +12,11 @@ dist/
 config/keys.js
 uniCloud-aliyun/cloudfunctions/*/config.local.js
 
+# ===== 自建后端（server/）=====
+server/.env
+server/data/
+server/uploads/
+
 # ===== 微信开发者工具私有配置 =====
 project.private.config.json
 
