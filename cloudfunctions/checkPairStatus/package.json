@@ -1,9 +1,0 @@
-{
-  "name": "checkPairStatus",
-  "version": "1.0.0",
-  "description": "配对状态检查云函数，从uniCloud迁移至原生CloudBase",
-  "main": "index.js",
-  "dependencies": {
-    "wx-server-sdk": "latest"
-  }
-}

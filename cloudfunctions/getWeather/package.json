@@ -1,7 +1,0 @@
-{
-  "name": "getWeather",
-  "version": "1.0.0",
-  "description": "天气云函数（硬编码数据），从uniCloud迁移至原生CloudBase",
-  "main": "index.js",
-  "dependencies": {}
-}

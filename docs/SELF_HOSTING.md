@@ -9,6 +9,8 @@
 > 只想先看看效果？在本地 `cd server && npm i && npm start`，然后把 `config/api.js` 的 `DEV_BASE` 指向本机即可，不需要域名和备案。
 >
 > **域名还没备案、想先用公网 IP 把后端跑起来？** 用 [deploy/README.md](../deploy/README.md) 里的一键脚本，上传一个 0.7MB 的源码包、跑一条命令就完事。
+>
+> **反过来：域名已经买了但没备案、不知道 HTTPS 怎么配？** 看 [DOMAIN_AND_HTTPS.md](DOMAIN_AND_HTTPS.md)——买域名、ICP 备案、解析、证书、443、微信白名单的完整流程和时间线。
 
 ---
 
@@ -171,6 +173,8 @@ sudo chown -R www-data:www-data /srv/onetwo/web
 ---
 
 ## 6. Nginx 与 HTTPS
+
+> 本节假设已有**已备案的域名 + 证书**。如果域名还没买、没备案，先按 [DOMAIN_AND_HTTPS.md](DOMAIN_AND_HTTPS.md) 走完第 1–4 步再回来。
 
 ```bash
 sudo tee /etc/nginx/sites-available/onetwo > /dev/null <<'EOF'

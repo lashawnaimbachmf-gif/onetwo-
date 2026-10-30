@@ -1,6 +1,5 @@
 # ===== 依赖 =====
 node_modules/
-cloudfunctions/*/node_modules/
 
 # ===== 构建产物 =====
 unpackage/

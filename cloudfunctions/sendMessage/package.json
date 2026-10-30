@@ -1,9 +1,0 @@
-{
-  "name": "sendMessage",
-  "version": "1.0.0",
-  "description": "微信订阅消息云函数（含定时触发器），从uniCloud迁移至原生CloudBase",
-  "main": "index.js",
-  "dependencies": {
-    "wx-server-sdk": "latest"
-  }
-}
