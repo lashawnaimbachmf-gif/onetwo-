@@ -12,8 +12,9 @@
  *   uni.removeStorageSync('API_BASE')
  */
 
-const DEV_BASE = 'http://127.0.0.1:3000'
-const PROD_BASE = 'https://your-domain.com'
+const DEV_BASE = 'http://120.27.229.190'
+// 拿到备案域名并配好 HTTPS 后，把这里换成 https://你的域名
+const PROD_BASE = 'http://120.27.229.190'
 
 function normalize (base) {
   return String(base || '').replace(/\/+$/, '')

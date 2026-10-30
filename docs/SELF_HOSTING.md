@@ -7,6 +7,8 @@
 - 入口：Nginx 统一 443，`/fn`、`/upload` 反代到 Node，`/uploads` 直出文件
 
 > 只想先看看效果？在本地 `cd server && npm i && npm start`，然后把 `config/api.js` 的 `DEV_BASE` 指向本机即可，不需要域名和备案。
+>
+> **域名还没备案、想先用公网 IP 把后端跑起来？** 用 [deploy/README.md](../deploy/README.md) 里的一键脚本，上传一个 0.7MB 的源码包、跑一条命令就完事。
 
 ---
 
