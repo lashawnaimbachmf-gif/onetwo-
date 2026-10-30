@@ -1,5 +1,7 @@
 <template>
     <view class="detail-page" v-if="anniversary">
+        <nav-back />
+
         <view class="header-card">
             <image class="anniversary-icon-img" :src="getAnniversaryIcon(anniversary.icon)" mode="aspectFit" />
             <text class="anniversary-name">{{ anniversary.name }}</text>
@@ -34,16 +36,16 @@
                 <text class="info-value">{{ getTypeText() }}</text>
             </view>
         </view>
-
-        <button class="back-btn" @click="goBack">返回</button>
     </view>
 </template>
 
 <script>
 import CloudData from '@/utils/cloudData.js'
 import UserManager from '@/utils/user.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             anniversary: null,
@@ -94,9 +96,6 @@ export default {
                 '🎉': '庆祝'
             }
             return icons[this.anniversary.icon] || '特别的日子'
-        },
-        goBack() {
-            uni.navigateBack()
         },
         getAnniversaryIcon(iconName) {
             const iconMap = {
@@ -238,24 +237,5 @@ export default {
     font-size: 28rpx;
     color: #1A1A1A;
     font-weight: 600;
-}
-
-.back-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #FF6B9D, #FF8DB5);
-    color: #FFFFFF;
-    font-size: 32rpx;
-    font-weight: 600;
-    padding: 32rpx;
-    border-radius: 56rpx;
-    border: none;
-    box-shadow: 0 12rpx 40rpx rgba(255, 107, 157, 0.24), 0 4rpx 16rpx rgba(255, 107, 157, 0.12);
-    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.35s ease, box-shadow 0.35s ease;
-}
-
-.back-btn:active {
-    transform: scale(0.97);
-    opacity: 0.92;
-    box-shadow: 0 6rpx 24rpx rgba(255, 107, 157, 0.2);
 }
 </style>

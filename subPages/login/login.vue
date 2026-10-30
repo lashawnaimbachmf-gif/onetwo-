@@ -1,5 +1,7 @@
 <template>
     <view class="login-page">
+        <nav-back />
+
         <!-- Title -->
         <view class="nav-bar">
             <text class="nav-title">登录</text>
@@ -71,10 +73,13 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import UploadUtil from '@/utils/upload.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             isLogin: false,
@@ -144,7 +149,7 @@ export default {
             try {
                 const appid = uni.getAccountInfoSync().miniProgram.appId
 
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'wxLogin',
                     data: {
                         code: code,
@@ -218,7 +223,7 @@ export default {
 
             // 上传头像到云存储
             let cloudAvatarUrl = this.completeAvatarUrl
-            if (this.completeAvatarUrl && !this.completeAvatarUrl.startsWith('http')) {
+            if (this.completeAvatarUrl && !UploadUtil.isRemoteUrl(this.completeAvatarUrl)) {
                 cloudAvatarUrl = await UploadUtil.uploadImage(this.completeAvatarUrl, 'avatars')
             }
 
@@ -236,7 +241,7 @@ export default {
 
             // 更新云端 users 表
             try {
-                await wx.cloud.callFunction({
+                await cloud.callFunction({
                     name: 'dataService',
                     data: {
                         action: 'update',

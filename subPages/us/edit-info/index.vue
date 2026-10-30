@@ -1,5 +1,7 @@
 <template>
     <view class="edit-info-page">
+        <nav-back />
+
         <view class="page-header">
             <text class="page-title">编辑信息</text>
         </view>
@@ -43,11 +45,14 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import UploadUtil from '@/utils/upload.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             togetherDate: '2023-03-22',
@@ -76,7 +81,7 @@ export default {
                 queryOpenids.push(partnerInfo.openid)
             }
 
-            const res = await wx.cloud.callFunction({
+            const res = await cloud.callFunction({
                 name: 'dataService',
                 data: {
                     action: 'get',
@@ -147,7 +152,7 @@ export default {
             UserManager.setUserInfo(updatedUser)
 
             // 更新自己：头像 + 昵称 + 在一起日期
-            const myUpdate = wx.cloud.callFunction({
+            const myUpdate = cloud.callFunction({
                 name: 'dataService',
                 data: {
                     action: 'update',
@@ -168,7 +173,7 @@ export default {
             const tasks = [myUpdate]
             if (partnerInfo && partnerInfo.openid && partnerInfo.openid !== currentUser.openid) {
                 tasks.push(
-                    wx.cloud.callFunction({
+                    cloud.callFunction({
                         name: 'dataService',
                         data: {
                             action: 'update',

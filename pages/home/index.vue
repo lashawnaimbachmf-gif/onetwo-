@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import { getWeather } from '@/api/weather.js'
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
@@ -272,7 +273,7 @@ export default {
         // 检查是否有反向绑定记录（别人绑定了自己）
         async checkReverseBind() {
             try {
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'inviteCode',
                     data: {
                         action: 'checkReverse',
@@ -335,7 +336,7 @@ export default {
                 queryOpenids.push(partnerInfo.openid)
             }
 
-            const res = await wx.cloud.callFunction({
+            const res = await cloud.callFunction({
                 name: 'dataService',
                 data: {
                     action: 'get',
@@ -552,7 +553,7 @@ export default {
         async saveCouplePhoto(url) {
             const userInfo = UserManager.getUserInfo()
             try {
-                await wx.cloud.callFunction({
+                await cloud.callFunction({
                     name: 'dataService',
                     data: {
                         action: 'update',

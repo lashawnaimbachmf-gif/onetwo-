@@ -1,5 +1,7 @@
 <template>
     <view class="create-page">
+        <nav-back />
+
         <!-- Header -->
         <view class="header">
             <text class="page-title">写情书</text>
@@ -125,8 +127,10 @@
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import UploadUtil from '@/utils/upload.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             title: '',
@@ -307,7 +311,7 @@ export default {
 
             // 上传图片到云存储
             let cloudImageUrl = this.image_url
-            if (this.type === 'image' && this.image_url && !this.image_url.startsWith('http')) {
+            if (this.type === 'image' && this.image_url && !UploadUtil.isRemoteUrl(this.image_url)) {
                 cloudImageUrl = await UploadUtil.uploadImage(this.image_url, 'capsules')
                 if (!cloudImageUrl) {
                     uni.hideLoading()
@@ -318,7 +322,7 @@ export default {
 
             // 上传语音到云存储
             let cloudVoiceUrl = this.voice_url
-            if (this.type === 'voice' && this.voice_url && !this.voice_url.startsWith('http')) {
+            if (this.type === 'voice' && this.voice_url && !UploadUtil.isRemoteUrl(this.voice_url)) {
                 cloudVoiceUrl = await UploadUtil.uploadImage(this.voice_url, 'voices')
                 if (!cloudVoiceUrl) {
                     uni.hideLoading()

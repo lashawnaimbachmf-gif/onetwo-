@@ -1,3 +1,5 @@
+import cloud from '@/utils/cloud.js'
+
 /**
  * 用户信息及关系管理
  * 包含用户信息、伴侣数据、邀请码相关功能
@@ -98,7 +100,7 @@ export default {
                 uni.setStorageSync('my_invite_code', code)
                 return code
             }
-            const res = await wx.cloud.callFunction({
+            const res = await cloud.callFunction({
                 name: 'inviteCode',
                 data: { action: 'create', userInfo }
             })
@@ -122,7 +124,7 @@ export default {
             if (!userInfo.openid) {
                 return { success: false, message: '尚未登录，请先登录' }
             }
-            const res = await wx.cloud.callFunction({
+            const res = await cloud.callFunction({
                 name: 'inviteCode',
                 data: { action: 'bind', code, userInfo }
             })

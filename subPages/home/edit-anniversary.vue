@@ -1,5 +1,7 @@
 <template>
     <view class="edit-page">
+        <nav-back />
+
         <view class="form-item">
             <text class="label">纪念日名称</text>
             <input class="input" v-model="name" placeholder="例如：宝宝生日" />
@@ -47,8 +49,10 @@
 import CloudData from '@/utils/cloudData.js'
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             id: null,

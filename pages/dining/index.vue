@@ -217,6 +217,7 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import TimeFormat from '@/utils/timeFormat.js'
@@ -298,7 +299,7 @@ export default {
         },
         async checkReverseBind() {
             try {
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'inviteCode',
                     data: { action: 'checkReverse', userInfo: this.userInfo }
                 })
@@ -504,7 +505,7 @@ export default {
                 if (!partnerInfo || !partnerInfo.openid) return
 
                 const goodsList = order.goods.map(g => `${g.name}x${g.count}`).join('、')
-                await wx.cloud.callFunction({
+                await cloud.callFunction({
                     name: 'sendMessage',
                     data: {
                         action: 'sendOrderNotification',

@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import CustomTabBar from '@/components/CustomTabBar.vue'
@@ -107,7 +108,7 @@ export default {
         // 检查是否有反向绑定记录
         async checkReverseBind() {
             try {
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'inviteCode',
                     data: {
                         action: 'checkReverse',

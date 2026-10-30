@@ -3,7 +3,7 @@
         <!-- Header -->
         <view class="detail-header">
             <view class="header-back" @click="goBack">
-                <text class="back-icon">‹</text>
+                <view class="back-icon"></view>
             </view>
             <text class="header-title">订单详情</text>
             <view class="header-spacer" />
@@ -233,10 +233,15 @@ export default {
 }
 
 .back-icon {
-    font-size: 44rpx;
-    color: #1A1A1A;
-    font-weight: 300;
-    line-height: 1;
+    box-sizing: border-box;
+    position: relative;
+    /* 旋转后箭头视觉重心偏左，右移补正，使其在圆形按钮内居中 */
+    left: 5rpx;
+    width: 18rpx;
+    height: 18rpx;
+    border-left: 4rpx solid #1A1A1A;
+    border-bottom: 4rpx solid #1A1A1A;
+    transform: rotate(45deg);
 }
 
 .header-title {

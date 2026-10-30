@@ -25,9 +25,7 @@
                 "desc" : "用于录制语音情书"
             }
         },
-        "requiredPrivateInfos" : [ "getLocation" ],
-        "cloudfunctionRoot" : "cloudfunctions/",
-        "cloud" : true
+        "requiredPrivateInfos" : [ "getLocation" ]
     },
     "h5" : {
         "title" : "恋爱小窝"

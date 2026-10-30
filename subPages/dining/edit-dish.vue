@@ -1,5 +1,7 @@
 <template>
     <view class="edit-page">
+        <nav-back />
+
         <view class="page-header">
             <text class="page-title">修改菜品</text>
         </view>
@@ -34,6 +36,7 @@
 <script>
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
+import NavBack from '@/components/NavBack.vue'
 
 const CATEGORIES = [
     { key: '主食', name: '主食' },
@@ -43,6 +46,7 @@ const CATEGORIES = [
 ]
 
 export default {
+    components: { NavBack },
     data() {
         return {
             id: '',

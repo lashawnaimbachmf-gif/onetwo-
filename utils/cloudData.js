@@ -1,3 +1,5 @@
+import cloud from '@/utils/cloud.js'
+
 /**
  * 云端数据管理模块
  * 基于腾讯云 CloudBase 数据库封装，含本地缓存减少云函数调用
@@ -30,8 +32,8 @@ const CloudData = {
 
     async callDataService(action, collection, params = {}) {
         try {
-            console.log('[DEBUG] wx.cloud 存在?', typeof wx.cloud, 'env=', wx.cloud ? wx.cloud.env : 'n/a')
-            const res = await wx.cloud.callFunction({
+            console.log('[DEBUG] wx.cloud 存在?', typeof wx.cloud, 'env=', wx.cloud ? cloud.env : 'n/a')
+            const res = await cloud.callFunction({
                 name: 'dataService',
                 data: { action, collection, openid: UserManager.getOpenid(), ...params }
             })

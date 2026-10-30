@@ -1,5 +1,7 @@
 <template>
     <view class="period-page">
+        <nav-back />
+
         <view class="header">
             <text class="title">姨妈助手</text>
         </view>
@@ -121,8 +123,10 @@
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             calYear: 2026,

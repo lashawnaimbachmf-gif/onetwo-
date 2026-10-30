@@ -1,5 +1,7 @@
 <template>
     <view class="notes-page">
+        <nav-back />
+
         <view class="header">
             <text class="title">便利贴</text>
             <text v-if="noteList.length > 0" class="note-count">{{ noteList.length }}条</text>
@@ -181,8 +183,10 @@
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             activeTab: 0,

@@ -1,16 +1,12 @@
 import App from './App.vue'
 import Vue from 'vue'
 import store from './store'
+import cloud from '@/utils/cloud.js'
 
 Vue.config.productionTip = false
 
-// 初始化微信云开发（必须在最顶层，App.vue 里的 init 会被 uni-app v2 编译剥离）
-if (typeof wx !== 'undefined' && wx.cloud) {
-    wx.cloud.init({
-        env: 'cloud1-d9gkl1jnyfa0d3be5',
-        traceUser: true
-    })
-}
+// 使用自建后端（原微信云开发已替换为 HTTP 适配层）
+cloud.init()
 
 App.mpType = 'app'
 

@@ -1,7 +1,9 @@
+import cloud from '@/utils/cloud.js'
+
 /**
  * 云存储上传工具
  *
- * 使用 wx.cloud.uploadFile 直接上传到腾讯云 CloudBase。
+ * 使用 cloud.uploadFile 直接上传到腾讯云 CloudBase。
  *
  * 如果遇到 "uploadFile:fail url not in domain list"：
  * - 开发阶段：微信开发者工具 → 设置 → 代理 → 勾选"不校验合法域名"
@@ -12,6 +14,17 @@
 
 export default {
     /**
+     * 判断是否已经是远端可访问的图片地址
+     * 注意：微信选图/头像返回的临时路径形如 http://tmp/xxx、wxfile://tmp_xxx，
+     * 它们虽然以 http 开头，但并不是服务器上的文件，必须上传。
+     */
+    isRemoteUrl(filePath) {
+        if (!filePath) return false
+        if (!/^https?:\/\//i.test(filePath)) return false
+        return !/\/tmp\//.test(filePath) && !filePath.startsWith('http://tmp')
+    },
+
+    /**
      * 上传图片到云存储
      * @param {string} filePath - 本地图片路径
      * @param {string} dir - 存储目录（可选）
@@ -20,8 +33,8 @@ export default {
     async uploadImage(filePath, dir = 'images') {
         if (!filePath) return ''
 
-        // 已经是网络 URL 直接返回
-        if (filePath.startsWith('http')) {
+        // 已经是服务器上的网络地址，直接返回
+        if (this.isRemoteUrl(filePath)) {
             return filePath
         }
 
@@ -31,7 +44,7 @@ export default {
             const cloudPath = `${dir}/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${ext}`
 
             // 直接上传到云存储
-            const result = await wx.cloud.uploadFile({
+            const result = await cloud.uploadFile({
                 filePath,
                 cloudPath
             })
@@ -43,7 +56,7 @@ export default {
 
             // 获取可访问的临时 URL
             try {
-                const urlResult = await wx.cloud.getTempFileURL({
+                const urlResult = await cloud.getTempFileURL({
                     fileList: [result.fileID]
                 })
                 if (urlResult.fileList && urlResult.fileList[0] && urlResult.fileList[0].tempFileURL) {

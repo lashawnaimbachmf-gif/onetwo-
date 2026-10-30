@@ -1,5 +1,7 @@
 <template>
     <view class="settings-page">
+        <nav-back />
+
         <!-- Header -->
         <view class="header">
             <text class="title">纪念日</text>
@@ -116,11 +118,14 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             togetherDate: '',
@@ -192,7 +197,7 @@ export default {
                     queryOpenids.push(partnerInfo.openid)
                 }
 
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'dataService',
                     data: {
                         action: 'get',
@@ -260,7 +265,7 @@ export default {
             // 并行更新双方记录
             const results = await Promise.all(
                 openids.map(openid =>
-                    wx.cloud.callFunction({
+                    cloud.callFunction({
                         name: 'dataService',
                         data: {
                             action: 'update',

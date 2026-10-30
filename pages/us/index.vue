@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
@@ -193,7 +194,7 @@ export default {
                     queryOpenids.push(this.partnerInfo.openid)
                 }
 
-                const userRes = await wx.cloud.callFunction({
+                const userRes = await cloud.callFunction({
                     name: 'dataService',
                     data: {
                         action: 'get',
@@ -230,7 +231,7 @@ export default {
         // 修复旧绑定中 partnerInfo 缺少 openid 的问题
         async repairPartnerOpenid() {
             try {
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'dataService',
                     data: {
                         action: 'get',
@@ -262,7 +263,7 @@ export default {
                     return
                 }
                 
-                const res = await wx.cloud.callFunction({
+                const res = await cloud.callFunction({
                     name: 'inviteCode',
                     data: {
                         action: 'checkReverse',

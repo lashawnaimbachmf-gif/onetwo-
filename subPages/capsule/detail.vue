@@ -1,5 +1,7 @@
 <template>
     <view class="detail-page">
+        <nav-back />
+
         <view class="capsule-detail-card" v-if="capsule">
             <view class="capsule-header">
                 <text class="capsule-title">{{ capsule.title }}</text>
@@ -38,8 +40,10 @@
 
 <script>
 import CloudData from '@/utils/cloudData.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             capsule: null,

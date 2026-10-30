@@ -1,5 +1,7 @@
 <template>
     <view class="add-page">
+        <nav-back />
+
         <view class="page-header">
             <text class="page-title">新建菜谱</text>
         </view>
@@ -46,6 +48,7 @@
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
 import UploadUtil from '@/utils/upload.js'
+import NavBack from '@/components/NavBack.vue'
 
 const CATEGORIES = [
     { key: '主食', name: '主食' },
@@ -55,6 +58,7 @@ const CATEGORIES = [
 ]
 
 export default {
+    components: { NavBack },
     data() {
         return {
             imgUrl: '',
@@ -99,7 +103,7 @@ export default {
             uni.showLoading({ title: '保存中...' })
 
             let cloudImgUrl = this.imgUrl
-            if (this.imgUrl && !this.imgUrl.startsWith('http')) {
+            if (this.imgUrl && !UploadUtil.isRemoteUrl(this.imgUrl)) {
                 cloudImgUrl = await UploadUtil.uploadImage(this.imgUrl, 'dishes')
                 if (!cloudImgUrl) {
                     uni.hideLoading()

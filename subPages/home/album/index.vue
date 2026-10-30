@@ -1,5 +1,7 @@
 <template>
     <view class="album-page">
+        <nav-back v-if="!currentAlbum" />
+
         <!-- 相册列表视图 -->
         <view v-if="!currentAlbum">
             <view class="header">
@@ -39,7 +41,7 @@
         <view v-else class="album-detail">
             <view class="detail-header">
                 <view class="back-btn" @click="closeAlbum">
-                    <text class="back-arrow">‹</text>
+                    <view class="back-arrow"></view>
                 </view>
                 <text class="detail-title">{{ currentAlbum.name }}</text>
                 <view class="header-action" @click="manageAlbum(currentAlbum)">
@@ -89,8 +91,10 @@ import UserManager from '@/utils/user.js'
 import { requireLogin } from '@/utils/auth.js'
 import CloudData from '@/utils/cloudData.js'
 import UploadUtil from '@/utils/upload.js'
+import NavBack from '@/components/NavBack.vue'
 
 export default {
+    components: { NavBack },
     data() {
         return {
             albums: [],
@@ -430,10 +434,15 @@ export default {
 }
 
 .back-arrow {
-    font-size: 48rpx;
-    color: #FF6B9D;
-    font-weight: 300;
-    line-height: 1;
+    box-sizing: border-box;
+    position: relative;
+    /* 旋转后箭头视觉重心偏左，右移补正，使其在圆形按钮内居中 */
+    left: 5rpx;
+    width: 18rpx;
+    height: 18rpx;
+    border-left: 4rpx solid #FF6B9D;
+    border-bottom: 4rpx solid #FF6B9D;
+    transform: rotate(45deg);
 }
 
 .detail-title {

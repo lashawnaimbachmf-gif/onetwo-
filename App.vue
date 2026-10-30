@@ -5,16 +5,13 @@
 </template>
 
 <script>
+import cloud from '@/utils/cloud.js'
+
 export default {
     name: 'App',
     onLaunch() {
-        // 初始化微信云开发
-        if (typeof wx !== 'undefined' && wx.cloud) {
-            wx.cloud.init({
-                env: 'cloud1-d9gkl1jnyfa0d3be5',
-                traceUser: true
-            })
-        }
+        // 使用自建后端，无需初始化云开发环境
+        cloud.init()
         // 不再强制检查登录状态，允许用户先浏览功能
         // 登录检查在各具体功能页面中进行
     }
