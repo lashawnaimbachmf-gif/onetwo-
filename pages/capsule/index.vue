@@ -1,18 +1,22 @@
 <template>
     <view class="capsule-page">
         <view class="header">
-            <text class="title">情书胶囊博物馆</text>
-            <button class="create-btn" @click="goCreate">+ 写情书</button>
+            <text class="title">情书胶囊</text>
         </view>
 
         <view class="capsule-tabs">
-            <view :class="['tab', activeTab === 0 ? 'active' : '']" @click="activeTab = 0">未开启</view>
-            <view :class="['tab', activeTab === 1 ? 'active' : '']" @click="activeTab = 1">已开启</view>
+            <view :class="['tab', activeTab === 0 ? 'active' : '']" @click="activeTab = 0">
+                <text class="tab-text">未开启</text>
+            </view>
+            <view :class="['tab', activeTab === 1 ? 'active' : '']" @click="activeTab = 1">
+                <text class="tab-text">已开启</text>
+            </view>
         </view>
 
         <view v-if="displayList.length === 0" class="empty-tip">
-            <image class="empty-icon-img" src="/static/icons/icon-capsule.png" mode="aspectFit" />
-            <text class="empty-text">{{ activeTab === 0 ? '暂无情书胶囊' : '还没有已开启的胶囊' }}</text>
+            <image class="empty-icon-img" src="/static/icons/icon-envelope.png" mode="aspectFit" />
+            <text class="empty-text">{{ activeTab === 0 ? '还没有情书胶囊' : '还没有已开启的胶囊' }}</text>
+            <text class="empty-sub" v-if="activeTab === 0">点击右下角 + 开始写情书吧</text>
         </view>
 
         <scroll-view class="capsule-list" v-else scroll-y refresher-enabled @refresherrefresh="onRefresh" :refresher-triggered="refreshing">
@@ -37,15 +41,21 @@
                 </view>
             </view>
         </scroll-view>
+
+        <view class="fab" @click="goCreate">
+            <text class="fab-text">+</text>
+        </view>
+        <CustomTabBar :activeIndex="1" />
     </view>
 </template>
 
 <script>
-import uniCloud from '@/utils/cloud.js'
 import UserManager from '@/utils/user.js'
 import CloudData from '@/utils/cloudData.js'
+import CustomTabBar from '@/components/CustomTabBar.vue'
 
 export default {
+    components: { CustomTabBar },
     data() {
         return {
             activeTab: 0,
@@ -64,12 +74,15 @@ export default {
             return list
         }
     },
-    async onShow() {
+    onLoad() {
         this.loadUserInfo()
-        // 检查反向绑定
         if (!this.isBind && this.userInfo.openid) {
-            await this.checkReverseBind()
+            this.checkReverseBind()
         }
+        this.loadCapsules()
+    },
+    onShow() {
+        this.loadUserInfo()
         this.loadCapsules()
     },
     methods: {
@@ -94,7 +107,7 @@ export default {
         // 检查是否有反向绑定记录
         async checkReverseBind() {
             try {
-                const res = await uniCloud.callFunction({
+                const res = await wx.cloud.callFunction({
                     name: 'inviteCode',
                     data: {
                         action: 'checkReverse',
@@ -106,7 +119,6 @@ export default {
                     UserManager.setPartnerInfo(res.result.data.partnerInfo)
                     this.partnerInfo = res.result.data.partnerInfo
                     this.isBind = true
-                    console.log('胶囊页自动绑定伴侣:', res.result.data.partnerInfo)
                 }
             } catch (err) {
                 console.error('胶囊页检查反向绑定失败:', err)
@@ -138,17 +150,12 @@ export default {
             return todayStr >= item.open_time
         },
         goCreate() {
-            uni.navigateTo({ url: '/pages/capsule/create' })
+            uni.navigateTo({ url: '/subPages/capsule/create' })
         },
         async goDetail(e) {
             const id = e.currentTarget.dataset.id
-            console.log('点击胶囊ID:', id)
-            
             const item = this.displayList.find(c => c.id == id)
-            if (!item) {
-                console.log('未找到胶囊')
-                return
-            }
+            if (!item) return
             
             if (!item.is_opened && !this.canOpen(item)) {
                 uni.showToast({ title: '还没到开启时间呢～', icon: 'none' })
@@ -162,14 +169,8 @@ export default {
                 await this.loadCapsules()
             }
             
-            uni.navigateTo({ 
-                url: '/pages/capsule/detail?id=' + id,
-                success: () => {
-                    console.log('跳转成功')
-                },
-                fail: (err) => {
-                    console.log('跳转失败:', err)
-                }
+            uni.navigateTo({
+                url: '/subPages/capsule/detail?id=' + id
             })
         }
     }
@@ -178,158 +179,202 @@ export default {
 
 <style scoped>
 .capsule-page {
-    background: #f7f8fa;
+    background: #F7F8FA;
     min-height: 100vh;
+    padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx);
 }
 
+/* ── Header ────────────────────────────────────── */
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16rpx 32rpx;
-    background: #fff;
+    justify-content: center;
+    padding: calc(var(--status-bar-height) + 28rpx) 32rpx 20rpx;
+    background: transparent;
 }
 
 .title {
     font-size: 36rpx;
-    font-weight: bold;
-    color: #333;
+    font-weight: 700;
+    color: #1A1A1A;
 }
 
-.create-btn {
-    background: linear-gradient(135deg, #ff6b9d, #ffa8c5);
-    color: #fff;
-    border-radius: 40rpx;
-    padding: 16rpx 32rpx;
-    font-size: 28rpx;
-    border: none;
+/* ── FAB — Premium Soft Glow ──────────────────────── */
+.fab {
+    position: fixed;
+    bottom: calc(56rpx + 100rpx + env(safe-area-inset-bottom));
+    right: 32rpx;
+    width: 104rpx;
+    height: 104rpx;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF6B9D, #FF8DB5);
+    box-shadow: 0 12rpx 40rpx rgba(255, 107, 157, 0.28), 0 4rpx 16rpx rgba(255, 107, 157, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+.fab:active {
+    transform: scale(0.92);
+    box-shadow: 0 6rpx 24rpx rgba(255, 107, 157, 0.2);
+}
+
+.fab-text {
+    font-size: 48rpx;
+    color: #FFFFFF;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* ── Tab Bar — Floating Pill ───────────────────── */
 .capsule-tabs {
     display: flex;
-    background: #fff;
-    padding: 0 32rpx;
-    border-bottom: 2rpx solid #f0f0f0;
+    margin: 0 32rpx;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16rpx);
+    -webkit-backdrop-filter: blur(16rpx);
+    border-radius: 24rpx;
+    padding: 4rpx;
+    box-shadow: 0 4rpx 24rpx rgba(255, 107, 157, 0.06), 0 1rpx 6rpx rgba(0, 0, 0, 0.03);
 }
 
 .tab {
     flex: 1;
-    text-align: center;
-    padding: 32rpx 0;
-    font-size: 30rpx;
-    color: #666;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 18rpx 0;
+    border-radius: 20rpx;
+    transition: background 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.tab-text {
+    font-size: 28rpx;
+    color: #999999;
+    font-weight: 500;
+    transition: color 0.25s ease;
 }
 
 .tab.active {
-    color: #ff6b9d;
-    font-weight: bold;
+    background: #FF6B9D;
+    box-shadow: 0 4rpx 16rpx rgba(255, 107, 157, 0.25);
 }
 
-.tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 48rpx;
-    height: 6rpx;
-    background: #ff6b9d;
-    border-radius: 3rpx;
+.tab.active .tab-text {
+    color: #FFFFFF;
+    font-weight: 600;
 }
 
+/* ── Empty State ───────────────────────────────── */
 .empty-tip {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 200rpx;
+    padding: 120rpx 32rpx;
 }
 
 .empty-icon-img {
-    width: 160rpx;
-    height: 160rpx;
+    width: 100rpx;
+    height: 100rpx;
     margin-bottom: 24rpx;
+    opacity: 0.4;
 }
 
 .empty-text {
     font-size: 28rpx;
-    color: #999;
+    color: #999999;
+    margin-bottom: 10rpx;
 }
 
+.empty-sub {
+    font-size: 24rpx;
+    color: #FF6B9D;
+}
+
+/* ── Capsule List ──────────────────────────────── */
 .capsule-list {
     padding: 24rpx 32rpx;
-    padding-right: calc(32rpx + constant(safe-area-inset-right));
-    padding-right: calc(32rpx + env(safe-area-inset-right));
-    height: calc(100vh - 300rpx);
+    height: calc(100vh - 200rpx);
     box-sizing: border-box;
 }
 
-.capsule-list ::v-deep .uni-scroll-view-content {
-    min-height: 100%;
-}
-
+/* ── Capsule Card ─────────────────────────────── */
 .capsule-card {
     display: flex;
     align-items: center;
-    background: #fff;
-    border-radius: 24rpx;
+    background: #FFFFFF;
+    border-radius: 28rpx;
     padding: 28rpx;
-    margin-bottom: 24rpx;
-    box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.04);
-    position: relative;
+    margin-bottom: 16rpx;
+    box-shadow: 0 8rpx 40rpx rgba(255, 107, 157, 0.05), 0 2rpx 12rpx rgba(0, 0, 0, 0.03);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.capsule-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 4rpx 20rpx rgba(255, 107, 157, 0.04);
 }
 
 .capsule-icon {
-    width: 100rpx;
-    height: 100rpx;
-    border-radius: 24rpx;
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 22rpx;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 24rpx;
+    flex-shrink: 0;
 }
 
 .type-icon-img {
-    width: 48rpx;
-    height: 48rpx;
+    width: 44rpx;
+    height: 44rpx;
 }
 
 .capsule-info {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .capsule-title {
     font-size: 30rpx;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8rpx;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 6rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .capsule-time {
     font-size: 24rpx;
-    color: #888;
+    color: #999999;
 }
 
+/* ── Status Badges ─────────────────────────────── */
 .capsule-status {
-    font-size: 24rpx;
+    font-size: 22rpx;
+    font-weight: 500;
     padding: 8rpx 20rpx;
-    border-radius: 20rpx;
+    border-radius: 48rpx;
+    flex-shrink: 0;
 }
 
 .capsule-status.pending {
-    background: #fff7f2;
-    color: #ff6b9d;
+    background: #FFF5F8;
+    color: #FF6B9D;
 }
 
 .capsule-status.can-open {
-    background: #f2fff7;
-    color: #07c160;
+    background: #F0FAF4;
+    color: #07C160;
 }
 
 .capsule-status.opened {
-    background: #f2f7ff;
-    color: #6b9dff;
+    background: #F7F8FA;
+    color: #999999;
 }
 </style>

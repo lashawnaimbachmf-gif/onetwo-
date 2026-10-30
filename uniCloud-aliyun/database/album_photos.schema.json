@@ -1,0 +1,31 @@
+{
+  "bsonType": "object",
+  "required": ["url", "albumId", "creatorOpenid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "url": {
+      "bsonType": "string",
+      "description": "照片云存储URL"
+    },
+    "albumId": {
+      "bsonType": "string",
+      "description": "所属相册ID"
+    },
+    "creatorOpenid": {
+      "bsonType": "string",
+      "description": "创建者openid"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+}

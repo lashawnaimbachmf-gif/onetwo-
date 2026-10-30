@@ -1,10 +1,5 @@
 // 和风天气配置
-// 密钥不入库：请参考 config/keys.example.js 创建 config/keys.js 后填入自己的 Key
-import { WEATHER_KEY } from '../config/keys.js'
-
-if (!WEATHER_KEY) {
-    console.warn('[weather] 未配置 WEATHER_KEY，天气接口将返回默认数据。请参考 config/keys.example.js 创建 config/keys.js')
-}
+const WEATHER_KEY = 'bd4524c2cf08409ab9a1596ce233e391'
 
 // 默认位置（北京）
 const DEFAULT_LOCATION = {

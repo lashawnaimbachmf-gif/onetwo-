@@ -1,5 +1,6 @@
 {
   "setting": {
+    "urlCheck": false,
     "es6": true,
     "postcss": true,
     "minified": true,
@@ -20,6 +21,8 @@
     "ignore": [],
     "include": []
   },
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloud": true,
   "appid": "wx6504ea4a7c468135",
   "editorSetting": {}
 }

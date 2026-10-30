@@ -9,9 +9,12 @@ const COLLECTIONS = {
     order: 'order'
 }
 
+// 默认限制条数，避免一次查太多数据浪费资源
+const DEFAULT_LIMIT = 100
+
 exports.main = async (event, context) => {
-    const { action, collection, data, id, where, openids } = event
-    
+    const { action, collection, data, id, where, openids, openid } = event
+
     // 检查必要参数
     if (!action) {
         return { code: -1, message: '缺少action参数' }
@@ -19,19 +22,23 @@ exports.main = async (event, context) => {
     if (!collection) {
         return { code: -1, message: '缺少collection参数' }
     }
-    
+
+    // ── 鉴权：所有操作需要登录 ────────────────────
+    if (!openid) {
+        return { code: -1, message: '请先登录' }
+    }
+    // 写入操作校验 openid 来源合法性（通过 wxLogin 返回的 openid 才有效）
+    if (['add', 'update', 'delete'].includes(action)) {
+        const userCheck = await db.collection('users').where({ openid }).get()
+        if (userCheck.data.length === 0) {
+            return { code: -1, message: '用户不存在，请先登录' }
+        }
+    }
+
     // 获取集合名称
     const collectionName = COLLECTIONS[collection] || collection
-    
-    // 确保集合存在
-    try {
-        await db.createCollection(collectionName)
-    } catch (e) {
-        // 集合已存在，忽略错误
-    }
-    
     const collectionRef = db.collection(collectionName)
-    
+
     try {
         switch(action) {
             case 'add':
@@ -41,18 +48,17 @@ exports.main = async (event, context) => {
                     createTime: Date.now()
                 }
                 const addRes = await collectionRef.add(addData)
-                // 获取添加的完整记录
-                const getRes = await collectionRef.doc(addRes.id).get()
+                // 直接返回插入的 ID，不额外查询完整记录
                 return {
                     code: 0,
                     message: '添加成功',
-                    data: getRes.data[0]
+                    data: { _id: addRes.id }
                 }
-                
+
             case 'get':
                 // 查询数据
                 let query = collectionRef
-                
+
                 // 如果有指定ID
                 if (id) {
                     const getRes = await collectionRef.doc(id).get()
@@ -62,32 +68,42 @@ exports.main = async (event, context) => {
                         data: getRes.data
                     }
                 }
-                
+
                 // 如果有查询条件
                 if (where) {
-                    query = query.where(where)
+                    // 自动将数组值转换为 db.command.in()，客户端无需传递 command 对象
+                    const processedWhere = {}
+                    for (const [key, val] of Object.entries(where)) {
+                        if (Array.isArray(val)) {
+                            processedWhere[key] = db.command.in(val)
+                        } else {
+                            processedWhere[key] = val
+                        }
+                    }
+                    query = query.where(processedWhere)
                 }
-                
+
                 // 如果指定了openid列表（用于查询情侣双方的数据）
                 if (openids && openids.length > 0) {
                     query = query.where({
                         creatorOpenid: db.command.in(openids)
                     })
                 }
-                
-                const listRes = await query.orderBy('createTime', 'desc').get()
+
+                // 添加 limit 限制查询条数，减少资源消耗
+                const listRes = await query.orderBy('createTime', 'desc').limit(DEFAULT_LIMIT).get()
                 return {
                     code: 0,
                     message: '查询成功',
                     data: listRes.data
                 }
-                
+
             case 'update':
                 // 更新数据
                 // 删除可能存在的 _id 字段，避免报错
                 if (data._id) delete data._id
                 if (data.id) delete data.id
-                
+
                 if (id) {
                     // 通过ID更新
                     await collectionRef.doc(id).update({
@@ -115,7 +131,7 @@ exports.main = async (event, context) => {
                         message: '缺少ID或where条件'
                     }
                 }
-                
+
             case 'delete':
                 // 删除数据
                 if (!id) {
@@ -124,14 +140,14 @@ exports.main = async (event, context) => {
                         message: '缺少ID'
                     }
                 }
-                
+
                 await collectionRef.doc(id).remove()
-                
+
                 return {
                     code: 0,
                     message: '删除成功'
                 }
-                
+
             default:
                 return {
                     code: -1,

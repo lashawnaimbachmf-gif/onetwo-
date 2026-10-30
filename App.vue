@@ -8,10 +8,15 @@
 export default {
     name: 'App',
     onLaunch() {
-        // 允许游客模式浏览，不再强制跳转登录页
-        // 用户可以在需要互动功能时自行选择登录
-    },
-    methods: {
+        // 初始化微信云开发
+        if (typeof wx !== 'undefined' && wx.cloud) {
+            wx.cloud.init({
+                env: 'cloud1-d9gkl1jnyfa0d3be5',
+                traceUser: true
+            })
+        }
+        // 不再强制检查登录状态，允许用户先浏览功能
+        // 登录检查在各具体功能页面中进行
     }
 }
 </script>
@@ -25,6 +30,6 @@ page {
 
 .uni-app {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    color: #222;
+    color: #1a1a1a;
 }
 </style>

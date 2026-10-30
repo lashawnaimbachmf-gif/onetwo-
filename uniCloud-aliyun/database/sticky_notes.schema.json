@@ -1,0 +1,60 @@
+{
+  "bsonType": "object",
+  "required": ["title", "creatorOpenid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "title": {
+      "bsonType": "string",
+      "description": "便利贴标题"
+    },
+    "content": {
+      "bsonType": "string",
+      "description": "便利贴内容"
+    },
+    "remindTime": {
+      "bsonType": "string",
+      "description": "提醒时间"
+    },
+    "isRemindEnabled": {
+      "bsonType": "bool",
+      "description": "是否开启提醒"
+    },
+    "isCompleted": {
+      "bsonType": "bool",
+      "description": "是否已完成"
+    },
+    "repeatType": {
+      "bsonType": "string",
+      "description": "重复类型: none / daily",
+      "defaultValue": "none"
+    },
+    "lastCompletedDate": {
+      "bsonType": "string",
+      "description": "最近完成日期 YYYY-MM-DD，用于每日重复项跨天重置"
+    },
+    "creatorOpenid": {
+      "bsonType": "string",
+      "description": "创建者openid"
+    },
+    "creatorName": {
+      "bsonType": "string",
+      "description": "创建者昵称"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    },
+    "updateTime": {
+      "bsonType": "timestamp",
+      "description": "更新时间"
+    }
+  }
+}

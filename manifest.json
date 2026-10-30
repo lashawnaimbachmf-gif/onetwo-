@@ -15,7 +15,7 @@
             "postcss" : true,
             "minifyWXSS" : true,
             "minifyWXML" : true,
-            "bigPackageSizeSupport" : false
+            "bigPackageSizeSupport" : true
         },
         "permission" : {
             "scope.userLocation" : {
@@ -25,7 +25,9 @@
                 "desc" : "用于录制语音情书"
             }
         },
-        "requiredPrivateInfos" : [ "getLocation" ]
+        "requiredPrivateInfos" : [ "getLocation" ],
+        "cloudfunctionRoot" : "cloudfunctions/",
+        "cloud" : true
     },
     "h5" : {
         "title" : "恋爱小窝"

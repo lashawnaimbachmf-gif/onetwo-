@@ -38,6 +38,7 @@
         "@dcloudio/uni-app": "2.0.2-4060620250520001",
         "@dcloudio/uni-cli-shared": "2.0.2-4060620250520001",
         "@dcloudio/uni-h5": "2.0.2-4060620250520001",
-        "@vue/cli-service": "^4.5.0"
+        "@vue/cli-service": "^4.5.0",
+        "sharp": "^0.35.1"
     }
 }

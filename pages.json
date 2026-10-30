@@ -1,35 +1,59 @@
 {
   "pages": [
-    { "path": "pages/login", "style": { "navigationStyle": "custom"} },
-    { "path": "pages/login/complete-info", "style": { "navigationStyle": "custom"} },
-    { "path": "pages/invite/index", "style": { "navigationStyle": "custom"} },
-    { "path": "pages/home/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/home/settings", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/home/edit-anniversary", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/home/anniversary-detail", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/capsule/index", "style": { "navigationBarBackgroundColor": "#ffffff", "navigationBarTextStyle": "black" } },
-    { "path": "pages/capsule/create", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/capsule/detail", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/tree/index", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
-    { "path": "pages/tree/create", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
-    { "path": "pages/tree/detail", "style": { "navigationBarBackgroundColor": "#f0f8f0", "navigationBarTextStyle": "black" } },
-    { "path": "pages/dining/index", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
-    { "path": "pages/dining/add-dish", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
-    { "path": "pages/dining/edit-dish", "style": { "navigationBarBackgroundColor": "#ff6b9d", "navigationBarTextStyle": "white" } },
-    { "path": "pages/us/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } },
-    { "path": "pages/us/edit-info/index", "style": { "navigationBarBackgroundColor": "#fff0f5", "navigationBarTextStyle": "black" } }
+    { "path": "pages/home/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/capsule/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/dining/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/us/index", "style": { "navigationStyle": "custom" } }
+  ],
+  "subPackages": [
+    {
+      "root": "subPages/login",
+      "pages": [
+        { "path": "login", "style": { "navigationStyle": "custom" } }
+      ]
+    },
+    {
+      "root": "subPages/home",
+      "pages": [
+        { "path": "settings", "style": { "navigationStyle": "custom" } },
+        { "path": "edit-anniversary", "style": { "navigationStyle": "custom" } },
+        { "path": "anniversary-detail", "style": { "navigationStyle": "custom" } },
+        { "path": "notes/index", "style": { "navigationStyle": "custom" } },
+        { "path": "period/index", "style": { "navigationStyle": "custom" } },
+        { "path": "album/index", "style": { "navigationStyle": "custom" } }
+      ]
+    },
+    {
+      "root": "subPages/capsule",
+      "pages": [
+        { "path": "create", "style": { "navigationStyle": "custom" } },
+        { "path": "detail", "style": { "navigationStyle": "custom" } }
+      ]
+    },
+    {
+      "root": "subPages/dining",
+      "pages": [
+        { "path": "add-dish", "style": { "navigationStyle": "custom" } },
+        { "path": "edit-dish", "style": { "navigationStyle": "custom" } },
+        { "path": "order-detail", "style": { "navigationStyle": "custom" } }
+      ]
+    },
+    {
+      "root": "subPages/us",
+      "pages": [
+        { "path": "edit-info/index", "style": { "navigationStyle": "custom" } }
+      ]
+    }
   ],
   "tabBar": {
-    "color": "#666",
-    "selectedColor": "#ff6b9d",
-    "backgroundColor": "#fff",
-    "borderStyle": "black",
+    "custom": true,
+    "color": "#999",
+    "selectedColor": "#FF6B9D",
     "list": [
-      { "pagePath": "pages/home/index", "text": "小窝", "iconPath": "static/tabbar/home.png", "selectedIconPath": "static/tabbar/home-active.png" },
-      { "pagePath": "pages/capsule/index", "text": "胶囊", "iconPath": "static/tabbar/capsule.png", "selectedIconPath": "static/tabbar/capsule-active.png" },
-      { "pagePath": "pages/tree/index", "text": "树洞", "iconPath": "static/tabbar/tree.png", "selectedIconPath": "static/tabbar/tree-active.png" },
-      { "pagePath": "pages/dining/index", "text": "点餐", "iconPath": "static/tabbar/dining.png", "selectedIconPath": "static/tabbar/dining-active.png" },
-      { "pagePath": "pages/us/index", "text": "我们", "iconPath": "static/tabbar/us.png", "selectedIconPath": "static/tabbar/us-active.png" }
+      { "pagePath": "pages/home/index", "text": "小窝" },
+      { "pagePath": "pages/capsule/index", "text": "胶囊" },
+      { "pagePath": "pages/dining/index", "text": "点餐" },
+      { "pagePath": "pages/us/index", "text": "我们" }
     ]
   }
 }

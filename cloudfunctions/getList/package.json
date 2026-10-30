@@ -1,0 +1,9 @@
+{
+  "name": "getList",
+  "version": "1.0.0",
+  "description": "旧版列表查询云函数，从uniCloud迁移至原生CloudBase",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
